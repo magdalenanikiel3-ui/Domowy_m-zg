@@ -1,0 +1,12 @@
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+.env
+.env.local
+node_modules/
+.idea/
+*.iml
+local.properties
+build/
+.gradle/

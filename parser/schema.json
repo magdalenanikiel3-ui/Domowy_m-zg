@@ -1,0 +1,105 @@
+{
+  "type": "object",
+  "required": ["rodzaj", "pewnosc"],
+  "additionalProperties": false,
+  "properties": {
+    "rodzaj": {
+      "type": "string",
+      "enum": ["wydarzenie", "termin", "wykonane", "pytanie", "niejasne"]
+    },
+    "obiekt": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "nazwa": { "type": "string" },
+        "nowy": { "type": "boolean" },
+        "kandydaci": {
+          "type": ["array", "null"],
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "czynnosc": { "type": ["string", "null"] },
+    "kotwica_czasu": {
+      "type": "object",
+      "required": ["typ"],
+      "additionalProperties": false,
+      "properties": {
+        "typ": {
+          "type": "string",
+          "enum": ["data_wprost", "dzien_tygodnia", "przesuniecie", "przebieg", "brak"]
+        },
+        "dzien_miesiaca": { "type": ["integer", "null"], "minimum": 1, "maximum": 31 },
+        "miesiac": { "type": ["integer", "null"], "minimum": 1, "maximum": 12 },
+        "rok": { "type": ["integer", "null"] },
+        "dzien": {
+          "type": ["string", "null"],
+          "enum": ["PON", "WT", "SR", "CZW", "PT", "SOB", "ND", null]
+        },
+        "ktory": {
+          "type": ["string", "null"],
+          "enum": ["najblizszy", "przyszly_tydzien", "niejasne", null]
+        },
+        "ile": { "type": ["integer", "null"] },
+        "jednostka": {
+          "type": ["string", "null"],
+          "enum": ["dzien", "tydzien", "miesiac", "rok", null]
+        },
+        "km": { "type": ["integer", "null"] },
+        "km_delta": { "type": ["integer", "null"] }
+      }
+    },
+    "godzina": { "type": ["string", "null"] },
+    "powtarzanie": {
+      "type": ["object", "null"],
+      "required": ["co", "jednostka"],
+      "additionalProperties": false,
+      "properties": {
+        "co": { "type": "integer", "minimum": 1 },
+        "jednostka": {
+          "type": "string",
+          "enum": ["dzien", "tydzien", "miesiac", "rok", "km"]
+        },
+        "koniec": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "typ": {
+              "type": "string",
+              "enum": ["po_czasie", "po_liczbie", "bezterminowo"]
+            },
+            "ile": { "type": ["integer", "null"] },
+            "jednostka_konca": {
+              "type": ["string", "null"],
+              "enum": ["tydzien", "miesiac", "rok", null]
+            }
+          }
+        }
+      }
+    },
+    "niejednoznacznosc": {
+      "type": "array",
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["pole", "pytanie", "opcje"],
+        "additionalProperties": false,
+        "properties": {
+          "pole": {
+            "type": "string",
+            "enum": ["obiekt", "ktory_dzien", "godzina", "rok"]
+          },
+          "pytanie": { "type": "string", "maxLength": 40 },
+          "opcje": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 3,
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "cytat": { "type": ["string", "null"] },
+    "pewnosc": { "type": "number", "minimum": 0, "maximum": 1 }
+  }
+}

@@ -1,0 +1,205 @@
+{
+  "_opis": "Przypadki testowe parsera. Grupa A: przechodzą bez pytania. Grupa B: muszą zapytać. Grupa C: pułapki na halucynację daty.",
+  "_jak_uzywac": "Podstaw kontekst poniżej, przepusc kazde zdanie osobno, porownaj z polami oczekiwany_*. Licz tylko: ile razy wymyslil date (grupa C) i ile razy rozstrzygnal zamiast zapytac (grupa B).",
+  "_progi": {
+    "wymyslone_daty": 0,
+    "nieuzasadnione_rozstrzygniecia_na_20": 1
+  },
+  "kontekst": {
+    "dzisiaj": "2026-08-20",
+    "dzien_tygodnia": "czwartek",
+    "godzina": "15:30",
+    "znane_obiekty": [
+      "auto (Skoda)",
+      "Burek (pies)",
+      "Fela (pies)",
+      "ekspres",
+      "pralka",
+      "Kuba (dziecko)",
+      "mieszkanie"
+    ],
+    "przebieg_auta_km": 102400
+  },
+  "przypadki": [
+    {
+      "id": "A1",
+      "zdanie": "muszę w piątek zawieźć psa do weterynarza na 15 i wozić go tak co dwa tygodnie przez pół roku",
+      "oczekiwany_rodzaj": "wydarzenie",
+      "oczekiwana_kotwica": "dzien_tygodnia",
+      "powinien_zapytac": true,
+      "pulapka": false,
+      "uwaga": "dwa psy w kontekście → pytanie o obiekt. Seria daje 14 wystąpień, jedno koliduje z 25.12"
+    },
+    {
+      "id": "A2",
+      "zdanie": "we wtorek do dentysty",
+      "oczekiwany_rodzaj": "wydarzenie",
+      "oczekiwana_kotwica": "dzien_tygodnia",
+      "powinien_zapytac": false,
+      "pulapka": false,
+      "uwaga": "mówione w czwartek — wtorek nie jest dziś, więc bezpiecznie"
+    },
+    {
+      "id": "A3",
+      "zdanie": "za dwa tygodnie kontrola u lekarza",
+      "oczekiwany_rodzaj": "wydarzenie",
+      "oczekiwana_kotwica": "przesuniecie",
+      "powinien_zapytac": false,
+      "pulapka": false,
+      "uwaga": ""
+    },
+    {
+      "id": "A4",
+      "zdanie": "zebranie wspólnoty 12 września o 18",
+      "oczekiwany_rodzaj": "wydarzenie",
+      "oczekiwana_kotwica": "data_wprost",
+      "powinien_zapytac": false,
+      "pulapka": false,
+      "uwaga": "rok null → resolver bierze najbliższe przyszłe"
+    },
+    {
+      "id": "A5",
+      "zdanie": "PIT do 30 kwietnia",
+      "oczekiwany_rodzaj": "termin",
+      "oczekiwana_kotwica": "data_wprost",
+      "powinien_zapytac": false,
+      "pulapka": false,
+      "uwaga": "rodzaj TERMIN, nie wydarzenie — inna logika powiadomień"
+    },
+    {
+      "id": "A6",
+      "zdanie": "co 90 dni filtr do wody",
+      "oczekiwany_rodzaj": "wydarzenie",
+      "oczekiwana_kotwica": "brak",
+      "powinien_zapytac": false,
+      "pulapka": false,
+      "uwaga": "jednostka dzien, NIE 3 miesiące. 12.06+90d=10.09, +3mies=12.09"
+    },
+    {
+      "id": "A7",
+      "zdanie": "odkamieniłam dziś ekspres",
+      "oczekiwany_rodzaj": "wykonane",
+      "oczekiwana_kotwica": "data_wprost",
+      "powinien_zapytac": false,
+      "pulapka": false,
+      "uwaga": "rodzaj WYKONANE — wpis do historii, nie do kalendarza"
+    },
+    {
+      "id": "A8",
+      "zdanie": "wymienić olej za 3 tysiące km",
+      "oczekiwany_rodzaj": "wydarzenie",
+      "oczekiwana_kotwica": "przebieg",
+      "powinien_zapytac": false,
+      "pulapka": false,
+      "uwaga": "powtarzanie w jednostce km"
+    },
+    {
+      "id": "A9",
+      "zdanie": "jutro rano odebrać receptę",
+      "oczekiwany_rodzaj": "wydarzenie",
+      "oczekiwana_kotwica": "przesuniecie",
+      "powinien_zapytac": false,
+      "pulapka": false,
+      "uwaga": "jutro = przesuniecie 1 dzien; godzina 'rano'"
+    },
+    {
+      "id": "B1",
+      "zdanie": "we wtorek do dentysty",
+      "oczekiwany_rodzaj": "wydarzenie",
+      "oczekiwana_kotwica": "dzien_tygodnia",
+      "powinien_zapytac": true,
+      "pulapka": false,
+      "uwaga": "MÓWIONE WE WTOREK — dziś czy za tydzień, musi pytać"
+    },
+    {
+      "id": "B2",
+      "zdanie": "w przyszły czwartek szczepienie",
+      "oczekiwany_rodzaj": "wydarzenie",
+      "oczekiwana_kotwica": "dzien_tygodnia",
+      "powinien_zapytac": true,
+      "pulapka": false,
+      "uwaga": "'przyszły' jest w polszczyźnie realnie dwuznaczne"
+    },
+    {
+      "id": "B3",
+      "zdanie": "za tydzień w środę odbiór auta",
+      "oczekiwany_rodzaj": "wydarzenie",
+      "oczekiwana_kotwica": "dzien_tygodnia",
+      "powinien_zapytac": true,
+      "pulapka": false,
+      "uwaga": "SPRZECZNOŚĆ W ZDANIU: za tydzień to czwartek, środa to inny dzień"
+    },
+    {
+      "id": "B4",
+      "zdanie": "zabrać psa do weterynarza w piątek",
+      "oczekiwany_rodzaj": "wydarzenie",
+      "oczekiwana_kotwica": "dzien_tygodnia",
+      "powinien_zapytac": true,
+      "pulapka": false,
+      "uwaga": "dwa psy w kontekście"
+    },
+    {
+      "id": "B5",
+      "zdanie": "spotkanie 5 marca",
+      "oczekiwany_rodzaj": "wydarzenie",
+      "oczekiwana_kotwica": "data_wprost",
+      "powinien_zapytac": true,
+      "pulapka": false,
+      "uwaga": "5 marca już minął w tym roku → pytanie o rok"
+    },
+    {
+      "id": "C1",
+      "zdanie": "olej 105300 km",
+      "oczekiwany_rodzaj": "wydarzenie",
+      "oczekiwana_kotwica": "przebieg",
+      "powinien_zapytac": false,
+      "pulapka": true,
+      "uwaga": "PUŁAPKA: brak daty. 105300 > obecne 102400, więc to plan, nie zapis wykonania"
+    },
+    {
+      "id": "C2",
+      "zdanie": "kiedy ostatnio wymieniałam olej?",
+      "oczekiwany_rodzaj": "pytanie",
+      "oczekiwana_kotwica": "brak",
+      "powinien_zapytac": false,
+      "pulapka": true,
+      "uwaga": "PUŁAPKA: rodzaj PYTANIE — nic nie zapisuj, odpowiedz z archiwum"
+    },
+    {
+      "id": "C3",
+      "zdanie": "przegląd auta",
+      "oczekiwany_rodzaj": "wydarzenie",
+      "oczekiwana_kotwica": "brak",
+      "powinien_zapytac": false,
+      "pulapka": true,
+      "uwaga": "PUŁAPKA: brak daty. Apka może zaproponować z archiwum, ale jako PROPOZYCJĘ"
+    },
+    {
+      "id": "C4",
+      "zdanie": "jak wrócę z urlopu oddzwonić do Kowalskiego",
+      "oczekiwany_rodzaj": "wydarzenie",
+      "oczekiwana_kotwica": "brak",
+      "powinien_zapytac": false,
+      "pulapka": true,
+      "uwaga": "PUŁAPKA: warunek, nie data. Wpis na liście bez terminu"
+    },
+    {
+      "id": "C5",
+      "zdanie": "opony zmienić jak spadnie poniżej 7 stopni",
+      "oczekiwany_rodzaj": "wydarzenie",
+      "oczekiwana_kotwica": "brak",
+      "powinien_zapytac": false,
+      "pulapka": true,
+      "uwaga": "PUŁAPKA: warunek. Można zaproponować połowę października, ale jako propozycję"
+    },
+    {
+      "id": "C6",
+      "zdanie": "po majówce zadzwonić do księgowej",
+      "oczekiwany_rodzaj": "wydarzenie",
+      "oczekiwana_kotwica": "brak",
+      "powinien_zapytac": false,
+      "pulapka": true,
+      "uwaga": "PUŁAPKA po cięciu v2: wyrażenie nieobsługiwane → brak + kalendarz, NIE zgadywanie"
+    }
+  ]
+}
